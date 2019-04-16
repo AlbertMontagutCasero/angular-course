@@ -55,6 +55,11 @@
   background: #E03137;
 }
 
+.activado{
+  text-decoration: none !important;
+  background: #E03137 !important;
+}
+
 #footer{
   margin-top: 30px;
   border: 1px solid #eee;
