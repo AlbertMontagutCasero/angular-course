@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import {log} from 'util';
+import { ProductoService } from '../service/producto.service';
 
 @Component({
   selector: 'app-productos-list',
   templateUrl: './productos-list.component.html',
-  styleUrls: ['./productos-list.component.css']
+  styleUrls: ['./productos-list.component.css'],
+  providers: [ProductoService]
 })
 export class ProductosListComponent implements OnInit {
 
@@ -13,12 +14,14 @@ export class ProductosListComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private productoService: ProductoService
   ) {
     this.titulo = 'Listado de productos';
   }
 
   ngOnInit() {
-    log('productos-list.component.ts cargado');
+    console.log('productos-list.component.ts cargado');
+    alert(this.productoService.getProductos())
   }
 }
