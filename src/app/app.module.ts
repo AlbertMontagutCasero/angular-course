@@ -7,18 +7,22 @@ import { ErrorComponent } from './error/error.component';
 import { AppRoutingModule } from './app.routing';
 import { ProductosListComponent } from './productos-list/productos-list.component';
 import { HttpClientModule } from '@angular/common/http';
+import { ProductoAddComponent } from './producto-add/producto-add.component';
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     ErrorComponent,
-    ProductosListComponent
+    ProductosListComponent,
+    ProductoAddComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

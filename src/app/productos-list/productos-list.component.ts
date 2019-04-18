@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
-import { ProductoService } from '../service/producto.service';
+import {Component, OnInit} from '@angular/core';
+import {Router, ActivatedRoute, Params} from '@angular/router';
+import {ProductoService} from '../service/producto.service';
+import {Producto} from '../model/producto';
+import {ApiResponse} from '../service/api-response';
 
 @Component({
   selector: 'app-productos-list',
@@ -11,6 +13,7 @@ import { ProductoService } from '../service/producto.service';
 export class ProductosListComponent implements OnInit {
 
   public titulo: string;
+  public productos: Producto[];
 
   constructor(
     private route: ActivatedRoute,
@@ -21,7 +24,17 @@ export class ProductosListComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('productos-list.component.ts cargado');
-    alert(this.productoService.getProductos())
+    this.productoService.getProductos().subscribe(
+      (result: ApiResponse<Producto>)  => {
+        if (result.code === 200) {
+          this.productos = result.data;
+        }
+        console.log(this.productos);
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
 }
+
