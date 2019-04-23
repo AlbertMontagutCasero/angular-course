@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {Router, ActivatedRoute, Params, Route} from '@angular/router';
+import {Router, ActivatedRoute, Params, Route, RouteConfigLoadEnd} from '@angular/router';
 import {ProductoService} from '../service/producto.service';
 import {Producto} from '../model/producto';
 import {ApiResponse} from '../service/api-response';
+import {GLOBAL} from '../global';
 
 @Component({
   selector: 'app-producto-add',
@@ -14,6 +15,8 @@ export class ProductoAddComponent implements OnInit {
 
   public titulo: string;
   public producto: Producto;
+  public filesToUpload;
+  public resultUpload;
 
   constructor(
     private productoService: ProductoService,
@@ -29,6 +32,22 @@ export class ProductoAddComponent implements OnInit {
   }
 
   onSubmit() {
+    if (this.filesToUpload && this.filesToUpload.length > 0) {
+      this.productoService.makeFileRequest(GLOBAL.url + 'upload-file', [], this.filesToUpload).then((result: {filename: string}) => {
+          console.log(result.filename);
+          this.producto.imagen = result.filename;
+          this.saveProducto();
+
+        }, (err) => {
+          console.log(err);
+        }
+      );
+    } else {
+      this.saveProducto();
+    }
+  }
+
+  saveProducto() {
     this.productoService.addProducto(this.producto).subscribe(
       (response: ApiResponse<Producto>) => {
         console.log(response);
@@ -42,5 +61,11 @@ export class ProductoAddComponent implements OnInit {
         console.log(error);
       }
     );
+  }
+
+
+  fileChangeEvent(fileInput: any) {
+    this.filesToUpload = fileInput.target.files as Array<File>;
+    console.log(this.filesToUpload);
   }
 }
